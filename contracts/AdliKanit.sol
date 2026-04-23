@@ -61,6 +61,7 @@ contract AdliKanit {
 
     error YetkisizErisim();
     error BosEtiket();
+    error ZatenMuhurlu();
 
     modifier onlyMimar() {
         if (msg.sender != mimar) revert YetkisizErisim();
@@ -85,6 +86,7 @@ contract AdliKanit {
      */
     function aileMirasiMuhurle(string calldata _etiket, address _cuzdan) external onlyMimar {
         if (bytes(_etiket).length == 0) revert BosEtiket();
+        if (aileMirasiTablosu[_etiket].bereketlendi) revert ZatenMuhurlu();
         aileMirasiTablosu[_etiket] = AileMirasi({
             cuzdan: _cuzdan,
             isim: _etiket,
@@ -105,7 +107,11 @@ contract AdliKanit {
         uint256 _pid,
         string calldata _not
     ) external onlyMimar returns (bytes32 kanitID) {
-        kanitID = keccak256(abi.encodePacked(_dosyaHash, _pid, block.timestamp, msg.sender));
+        // Include toplamKanitCount as a nonce so two calls in the same block
+        // with identical (_dosyaHash, _pid) still produce distinct ids.
+        kanitID = keccak256(
+            abi.encodePacked(_dosyaHash, _pid, block.timestamp, msg.sender, toplamKanitCount)
+        );
         kanitlar[kanitID] = Kanit({
             zaman: block.timestamp,
             dosyaHash: _dosyaHash,
