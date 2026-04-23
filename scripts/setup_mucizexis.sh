@@ -20,22 +20,17 @@ TARGET="${ROOT}/mucizexis-core"
 echo -e "${BLUE}📁 Klasör yapısı oluşturuluyor: ${TARGET}${NC}"
 mkdir -p "${TARGET}/core" "${TARGET}/meta" "${TARGET}/polygon" "${TARGET}/logs"
 
-# Core file is version-controlled under core/ — don't overwrite if user modified it.
-if [ ! -f "${TARGET}/core/MucizeXIS.py" ]; then
-  cp "${ROOT}/core/MucizeXIS.py" "${TARGET}/core/MucizeXIS.py"
-fi
-if [ ! -f "${TARGET}/meta/META_XIS.py" ]; then
-  cp "${ROOT}/core/META_XIS.py" "${TARGET}/meta/META_XIS.py"
-fi
-if [ ! -f "${TARGET}/polygon/check.py" ]; then
-  cp "${ROOT}/core/polygon_check.py" "${TARGET}/polygon/check.py"
-fi
+# Always sync from version-controlled sources so re-runs pick up upstream changes.
+cp "${ROOT}/core/MucizeXIS.py" "${TARGET}/core/MucizeXIS.py"
+cp "${ROOT}/core/META_XIS.py" "${TARGET}/meta/META_XIS.py"
+cp "${ROOT}/core/polygon_check.py" "${TARGET}/polygon/check.py"
 
 echo -e "${GREEN}✅ Tüm çekirdek dosyalar yerleştirildi.${NC}"
 
 echo -e "${YELLOW}🚀 Smoke test çalıştırılıyor...${NC}"
 python3 "${TARGET}/core/MucizeXIS.py"
 python3 "${TARGET}/meta/META_XIS.py"
+python3 "${TARGET}/polygon/check.py"
 
 echo ""
 echo "==================================================="

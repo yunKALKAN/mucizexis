@@ -46,7 +46,7 @@ class MucizeXIS:
 
     def decide(self, decision: Any, risks: Iterable[str] | None = None) -> dict[str, Any]:
         """Evaluate a decision against the ethical matrix."""
-        risks = list(risks or [])
+        risks = list(risks) if risks is not None else []
         score = self.conscience_score(risks)
         if score < 0.5:
             return {
