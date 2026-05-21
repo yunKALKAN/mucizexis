@@ -1,15 +1,6 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import {
-  Plus,
-  Trash2,
-  CheckCircle2,
-  Circle,
-  Eye,
-  Wallet,
-  Menu,
-  X
-} from 'lucide-react';
+
+import React from 'react';
 
 export default function Home() {
   return (
@@ -18,17 +9,4 @@ export default function Home() {
       <p>Build hatası düzeldi mi?</p>
     </div>
   );
-}"use client";
-
-import React, { useState, useEffect } from 'react';
-import { 
-  Plus, 
-  Trash2, 
-  CheckCircle2, 
-  Circle, 
-  Eye, 
-  FolderPlus,
-  // ... kalan tüm ikonlar
-} from 'lucide-react';
-
-// geri kalan kod aynı kalır
+}
